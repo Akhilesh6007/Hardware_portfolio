@@ -86,6 +86,14 @@ npm exec -w client -- vite preview --host 127.0.0.1 --port 4173
 # Clear GITHUB_PAGES_BASE and SITE_URL afterward to return to the default build.
 ```
 
+### Frontend: Vercel
+
+Import `Akhilesh6007/Hardware_portfolio` into the existing `client` project. In **Settings → Build and Deployment**, leave **Root Directory** empty so Vercel builds from the monorepo root. The tracked `vercel.json` selects Vite, installs with `npm ci`, builds with `npm run build -w client`, publishes the root `dist` directory, and rewrites direct React Router URLs to the app shell. Do not set Root Directory to `client`: the shared build output is outside that directory.
+
+The initial Vercel deployment serves the same read-only concept portfolio as GitHub Pages. For the live Express API, deploy `server/` using the Render instructions and configure `VITE_DEMO_MODE=false` plus `VITE_API_URL` before rebuilding. Admin cookies require same-site hosting or a same-origin API proxy, as explained below. Never put backend secrets in Vite variables.
+
+Set `SITE_URL` to your preferred custom domain when one is added. Otherwise, Vercel's `VERCEL_PROJECT_PRODUCTION_URL` is used for canonical URLs and the sitemap. Leave `GITHUB_PAGES_BASE` unset on Vercel; only the GitHub Pages workflow sets that repository subpath.
+
 ### Frontend: Netlify
 
 Import the repository with `netlify.toml`. Build: `npm run build -w client`; publish `dist`. Set `VITE_DEMO_MODE=false`, `VITE_API_URL=https://YOUR-API/api/v1`, and `SITE_URL=https://YOUR-FRONTEND`. For the most reliable cookie authentication, reverse-proxy `/api` to Express on the same site, and use `/api/v1` as the frontend API URL.

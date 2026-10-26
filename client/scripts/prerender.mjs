@@ -11,6 +11,9 @@ const basePath = process.env.GITHUB_PAGES_BASE || "/";
 const template = await readFile(path.join(base, "index.html"), "utf8");
 const origin = (
   process.env.SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "") ||
   "https://experimental-builder-lab-ak.ochreloach512.chatgpt.site"
 ).replace(/\/$/, "");
 const pages = {
