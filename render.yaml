@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: builder-portfolio-api
+    runtime: node
+    buildCommand: npm ci && npm run build -w server
+    startCommand: npm start -w server
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: TRUST_PROXY
+        value: 1
